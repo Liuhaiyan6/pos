@@ -132,14 +132,14 @@ function buildPromotionItems(allItems,promotions) {
   let result = [];
   let currentPromotion = promotions.find(promotion=>promotion.type === '单品出售商品');
   return cartItems.map((cartItem)=> {
-      let hasPromoted = currentPromotion.barcodes.includes(cartItem.barcode) && cartItem.count > 10;
-  let totalPrice = cartItem.price * cartItem.count;
-  let saved = hasPromoted ? tatalPrice * 0.05 : 0;
-  let payPrice = tatalPrice - saved;
-  return Object.assign({}, cartItem, {
-    payPrice, saved: _fixPrice(saved)
+    let hasPromoted = currentPromotion.barcodes.includes(cartItem.barcode) && cartItem.count > 10;
+    let totalPrice = cartItem.price * cartItem.count;
+    let saved = hasPromoted ? tatalPrice * 0.05 : 0;
+    let payPrice = tatalPrice - saved;
+    return Object.assign({}, cartItem, {
+      payPrice, saved: _fixPrice(saved)
+    })
   })
-})
 
 }
 
@@ -152,16 +152,16 @@ function  buildPromotedItems(cartItems,loadPromotions) {
   let hasPromoted;
   for (cartItem of cartItems.barcode) {
     for (currentPromotion of currentPromotions.barcode) {
-      if (cartItems.barcode === barcode) {
-        hasPromoted = true;
-      }
-      for (currentPromotion of currentPromotion.type) {
-        if(currentPromotion.type = "BUY _TWO_GET_ONE_FREE"){
-          var countSaved = Math.floor(cartItem.count/3);
-          saved =  cartItem.price *countSaved;
-        } else if (currentPromotion.type = "BUY_MORE_TEN_DISCOUNT_JIUWU" && countedBarcode.count >10){
-          saved = countedBarcode.count * cartItem.price *0.95
+        if (cartItems.barcode === barcode) {
+          hasPromoted = true;
         }
+        for (currentPromotion of currentPromotion.type) {
+          if(currentPromotion.type = "BUY _TWO_GET_ONE_FREE"){
+            var countSaved = Math.floor(cartItem.count/3);
+            saved =  cartItem.price *countSaved;
+          } else if (currentPromotion.type = "BUY_MORE_TEN_DISCOUNT_JIUWU" && countedBarcode.count >10){
+            saved = countedBarcode.count * cartItem.price *0.95
+          }
 
       }
     }

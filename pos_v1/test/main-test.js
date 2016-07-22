@@ -1,35 +1,237 @@
+
+ 'use strict';
+ describe('pos ', () => {
+   it('should print formattedItems', () => {
+
+     const tags = [
+       'ITEM000001',
+       'ITEM000001',
+       'ITEM000001',
+       'ITEM000001',
+       'ITEM000001',
+       'ITEM000003-2',
+       'ITEM000005',
+       'ITEM000005',
+       'ITEM000005'
+     ];
+     let formattedItems = getFormattedItems(tags);
+
+     const expectText = [{barcode:'ITEM000001',count:1},
+       {barcode:'ITEM000001',count:1},
+       {barcode:'ITEM000001',count:1},
+       {barcode:'ITEM000001',count:1},
+       {barcode:'ITEM000001',count:1},
+       {barcode:'ITEM000003',count:2},
+       {barcode:'ITEM000005',count:1},
+       {barcode:'ITEM000005',count:1},
+       {barcode:'ITEM000005',count:1}
+     ];
+     expect(formattedItems).toEqual(expectText);
+   });
+ });
+//#2
+ 'use strict';
+ describe('pos', () => {
+   it('should print  countBarcodes', () => {
+     const formattedTags = [{barcode:'ITEM000001',count:1},
+      {barcode:'ITEM000001',count:1},
+      {barcode:'ITEM000001',count:1},
+      {barcode:'ITEM000001',count:1},
+      {barcode:'ITEM000001',count:1},
+      {barcode:'ITEM000003',count:2},
+      {barcode:'ITEM000005',count:1},
+      {barcode:'ITEM000005',count:1},
+      {barcode:'ITEM000005',count:1}
+   ];
+
+     let countBarcodes = getCountItems(formattedTags);
+
+     const expectText = [{count:5,barcode:'ITEM000001'},
+       {count:2,barcode:'ITEM000003'},
+       {count:3,barcode:'ITEM000005'}
+     ];
+     expect(countBarcodes).toEqual(expectText);
+   });
+ });
+
+ // No #3
+ 'use strict';
+ describe('pos', () => {
+it('should print allCartItems', () => {
+    const countedBarcodes = [{count:5,barcode:'ITEM000001'},
+      {count:2,barcode:'ITEM000003'},
+      {count:3,barcode:'ITEM000005'}];
+
+      const allItems = loadAllItems();
+  let cartItems= buildCartItems(countedBarcodes,allItems);
+  const expectText = [{barcode:'ITEM000001',
+      name:'雪碧',
+      price:3,
+      unit:'瓶',
+      count:5,
+    category:'食品',
+    subCateGory:'碳酸饮料'
+  },
+      {barcode:'ITEM000003',
+        name:'荔枝',
+        price:15,
+        unit:'斤',
+        count:2,
+        category:'水果',
+        subCateGory:'营养水果'},
+      {barcode:'ITEM000005',
+        name:'方便面',
+        price:4.5,
+        unit:'袋',
+        count:3,
+        category:'食品',
+        subCateGory:'垃圾零食'}
+    ];
+    expect(cartItems).toEqual(expectText);
+  });
+ });
+//
+// // No #4
 'use strict';
+  describe('pos', () => {
+  it('should print buildPromotedItems', () => {
+    const cartItems = [{barcode:'ITEM000001',
+      name:'雪碧',
+      price:3,
+      unit:'瓶',
+      count:5,
+      category:'食品',
+      subCateGory:'碳酸饮料',
+      payPrice :15.00,
+      saved :0.00},
 
-describe('pos', () => {
+      {barcode:'ITEM000003',
+        name:'荔枝',
+        price:15.00,
+        unit:'斤',
+        count:2,
+        category:'水果',
+        subCateGory:'营养水果',
+        payPrice :30.00,
+        saved :0.00},
 
-  it('should print text', () => {
+      {barcode:'ITEM000005',
+        name:'方便面',
+        price:4.50,
+        unit:'袋',
+        count:3,
+        category:'食品',
+        subCateGory:'垃圾零食',
+        payPrice :13.50,
+        saved :0.00}
+     ];
 
-    const tags = [
-      'ITEM000001',
-      'ITEM000001',
-      'ITEM000001',
-      'ITEM000001',
-      'ITEM000001',
-      'ITEM000003-2',
-      'ITEM000005',
-      'ITEM000005',
-      'ITEM000005'
+    expect(promotedItems).toEqual(expectText);
+  });
+});
+//
+// //No #5
+'use strict';
+describe('print pos', () => {
+  it('should print Receipt', () => {
+    const promotedItems = [{barcode:'ITEM000001',
+      name:'雪碧',
+      price:3.00,
+      unit:'瓶',
+      count:5,
+          category:'食品',
+          subCateGory:'碳酸饮料',
+      payPrice :15.00,
+      saved :0.00},
+      {barcode:'ITEM000003',
+        name:'荔枝',
+        price:15.00,
+        unit:'斤',
+        count:2,
+         category:'水果',
+         subCateGory:'营养水果',
+        payPrice :30.00,
+        saved :0.00},
+      {barcode:'ITEM000005',
+        name:'方便面',
+        price:4.50,
+        unit:'袋',
+        count:3,
+ category:'食品',
+   subCateGory:'垃圾零食',
+        payPrice :13.50,
+        saved :0.00}
     ];
 
-    spyOn(console, 'log');
+    let totalPrices = calculateTotalPrices (promotedItems);
 
-    printReceipt(tags);
+    const expectText = {totalPayPrice:58.50,
+    totalSaved:0.00};
+    expect(totalPrices).toEqual(expectText);
+     });
+   });
+//
+// //No #6
+// //  'use strict';
+  describe('pos', () => {
+  it('print creceiptItemsString', () => {
+    const totalPrices = {totalPayPrice:58.50,
+      totalSaved:0.00};
 
-    const expectText = `***<没钱赚商店>收据***
-名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)
-名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)
-名称：方便面，数量：3袋，单价：4.50(元)，小计：9.00(元)
-----------------------
-总计：51.00(元)
-节省：7.50(元)
-**********************`;
+    const promotedItems = [{barcode:'ITEM000001',
+      name:'雪碧',
+      price:3.00,
+      unit:'瓶',
+      count:5,
+      category:'食品',
+ subCateGory:'碳酸饮料',
+      payPrice :15.00,
+      saved :0.00},
+      {barcode:'ITEM000003',
+        name:'荔枝',
+        price:15.00,
+        unit:'斤',
+        count:2,
+          category:'水果',
+          subCateGory:'营养水果',
+        payPrice :30.00,
+        saved :0.00},
+      {barcode:'ITEM000005',
+        name:'方便面',
+        price:4.50,
+        unit:'袋',
+        count:3,
+  category:'食品',
+    subCateGory:'垃圾零食',
+        payPrice :13.50,
+        saved :0.00}
+    ];
+    let receipt = buildReceipt(promotedItems,totalPrices);
+    const expectText = {
+      receiptItems:[{
+          name:'雪碧',
+          price:3.00,
+          unit:'瓶',
+          count:5,
+          payPrice :15.00
+      },
 
-    expect(console.log).toHaveBeenCalledWith(expectText);
+    {
+        name:'荔枝',
+        price:15.00,
+        unit:'斤',
+        count:2,
+        payPrice :30.00},
+      {
+        name:'方便面',
+        price:4.50,
+        unit:'袋',
+        count:3,
+        payPrice :13.50,
+    }],
+        totalPayPrice:58.50,
+          totalSaved:0.00
+};
+expect(receipt).toEqual(expectText)
   });
-})
-;
+});
